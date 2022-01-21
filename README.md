@@ -9,3 +9,5 @@ git clone https://git.stack-source.com/msb/powerdns-tools.git
 cd powerdns-tools
 bash install.sh
 ```
+
+Edit /usr/local/etc/pdns.conf with your values.
