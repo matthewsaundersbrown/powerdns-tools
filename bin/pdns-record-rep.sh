@@ -13,15 +13,18 @@ help()
   echo "$thisfilename"
   echo "Replace Resource Record set in zone."
   echo ""
-  echo "usage: $thisfilename -z <zone> -n <name> -t <type> -c <content> [-l <ttl>] [-s <status>] [-h]"
+  echo "usage: $thisfilename -z <zone> -n <name> -t <type> -r <record> [-l <ttl>] [-s <status>] [-c <comment>] [-a <account>] [-h]"
   echo ""
   echo "  -h            Print this help."
   echo "  -z <zone>     Zone (domain name) to modify records."
   echo "  -n <name>     Hostname for this record."
   echo "  -t <type>     Type of record to modify (A, CNAME, TXT, etc.)."
-  echo "  -c <content>  Resource record content (data / values)."
+  echo "  -r <record>   Resource record content (data / values)."
   echo "  -l <ttl>      TTL, optional, defaults to $zone_defaults_ttl."
   echo "  -s <0|1>      Status, optional. O (default) for active or 1 for disabled."
+  echo "  -c <comment>  An optional comment/note about the record."
+  echo "  -a <account>  The account that the comment gets attributed too."
+  echo "                Only used if comment is set. Optional, defaults to hostname of server running this script."
   echo
   echo "                If record(s) do not exist they are created, if they already exist they are replaced."
   echo "                Record Sets are matched against zone, name & type. This tool updates/replaces all records"
@@ -124,11 +127,23 @@ if [[ $zone_status = 200 ]]; then
 
     if [[ $records_count < $resourcerecords_records_count ]]; then
       data="$data,"
+    else
+      data="$data]"
     fi
 
   done
 
-  data="$data]}]}"
+  # add comment, if set
+  if [[ -n $comment ]]; then
+    # set account to hostname if not specified with -a option
+    if [[ -z $account ]]; then
+      account=$(/usr/bin/hostname -f)
+    fi
+    data= "$data,\"comments\":[{\"content\":\"$comment\",\"account\":\"$account\"}]"
+  fi
+
+  # close out json string
+  data="$data}]}"
 
   # add record(s)
   zone_status=$(/usr/bin/curl --silent --request PATCH --output "/tmp/$zone" --write-out "%{http_code}" --header "X-API-Key: $api_key" --data "$data" "$api_base_url/zones/$zone")

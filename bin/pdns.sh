@@ -118,7 +118,7 @@ function pdns::yesno() {
 
 function pdns:getoptions () {
   local OPTIND
-  while getopts "hbz:m:t:a:n:c:l:s:x" opt ; do
+  while getopts "hbz:m:t:a:n:r:c:l:s:x" opt ; do
     case "${opt}" in
         h ) # display help and exit
           help
@@ -150,8 +150,11 @@ function pdns:getoptions () {
         n ) # name - hostname for this record
           name=${OPTARG,,}
           ;;
-        c ) # content - record data
-          content=${OPTARG}
+        r ) # record data
+          record=${OPTARG}
+          ;;
+        c ) # comment - a note about the record
+          comment=${OPTARG}
           ;;
         l ) # ttl - Time To Live
           ttl=${OPTARG}
