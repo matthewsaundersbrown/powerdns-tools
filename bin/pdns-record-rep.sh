@@ -89,10 +89,10 @@ if [[ $zone_status = 200 ]]; then
 
   data="{\"rrsets\":[{\"name\":\"$name\",\"type\":\"$type\",\"ttl\":$ttl,\"changetype\":\"REPLACE\",\"records\":["
 
-  # turn content in to array of records
+  # turn record in to array of records
   orig_ifs="$IFS"
   IFS='|'
-  read -r -a resourcerecords <<< "$content"
+  read -r -a resourcerecords <<< "$record"
   IFS="$orig_ifs"
 
   # get number of records in set
