@@ -70,9 +70,9 @@ if [[ -z $type ]]; then
   exit
 fi
 
-# check for content
-if [[ -z $content ]]; then
-  echo "content is required"
+# check for record data
+if [[ -z $record ]]; then
+  echo "record is required"
   exit
 fi
 
