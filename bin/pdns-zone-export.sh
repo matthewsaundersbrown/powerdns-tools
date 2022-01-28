@@ -16,7 +16,7 @@ help()
   echo "usage: $thisfilename -z <zone> [-h]"
   echo ""
   echo "  -h            Print this help."
-  echo "  -z <zone>     Zone to get."
+  echo "  -z <zone>     Zone to export."
 }
 
 pdns:getoptions "$@"
