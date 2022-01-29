@@ -11,7 +11,7 @@ help()
 {
   thisfilename=$(basename -- "$0")
   echo "$thisfilename"
-  echo "Export full DNS zone"
+  echo "Export full DNS zone in AXFR format."
   echo ""
   echo "usage: $thisfilename -z <zone> [-h]"
   echo ""
