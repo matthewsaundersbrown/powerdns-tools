@@ -27,21 +27,20 @@ if [[ -z $zone ]]; then
   exit
 fi
 
-TMPDIR=$(mktemp -d -p /tmp)
+tmpfile=$(mktemp)
 
 # export zone and check http status
-zone_status=$(/usr/bin/curl --silent --output "$TMPDIR/$zone" --write-out "%{http_code}" -H "X-API-Key: $api_key" $api_base_url/zones/$zone/export)
+zone_status=$(/usr/bin/curl --silent --output "$tmpfile" --write-out "%{http_code}" -H "X-API-Key: $api_key" $api_base_url/zones/$zone/export)
 
 if [[ $zone_status = 200 ]]; then
   # return zone level records
-  sed -e 's/\t/|/g' $TMPDIR/$zone|column -t -s \| |grep ^$zone.
+  sed -e 's/\t/|/g' $tmpfile|column -t -s \| |grep ^$zone.
   # return subdomain records
-  sed -e 's/\t/|/g' $TMPDIR/$zone|column -t -s \| |grep -v ^$zone.
+  sed -e 's/\t/|/g' $tmpfile|column -t -s \| |grep -v ^$zone.
 elif [[ $zone_status = 404 ]]; then
   echo 404 Not Found, $zone does not exist
 else
   echo Unexecpted http response checking for existence of zone $zone: $zone_status
 fi
 
-rm $TMPDIR/$zone
-rmdir $TMPDIR
+rm $tmpfile

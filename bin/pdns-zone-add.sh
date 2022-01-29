@@ -32,7 +32,7 @@ if [[ -z $zone ]]; then
 fi
 
 # first query to see if zone already exists
-zone_status=$(/usr/bin/curl --silent --output /tmp/$zone.output --write-out "%{http_code}" -H "X-API-Key: $api_key" "$api_base_url/zones/$zone")
+zone_status=$(/usr/bin/curl --silent --output /dev/null --write-out "%{http_code}" -H "X-API-Key: $api_key" "$api_base_url/zones/$zone?rrsets=false")
 
 if [[ $zone_status = 200 ]]; then
   echo Zone $zone already exists.
@@ -145,7 +145,7 @@ elif [[ $zone_status = 404 ]]; then
   data="$data]}"
 
   # add zone
-  zone_status=$(/usr/bin/curl --silent --request POST --output "/tmp/$zone.output" --write-out "%{http_code}" --header "X-API-Key: $api_key" --data "$data" "$api_base_url/zones")
+  zone_status=$(/usr/bin/curl --silent --request POST --output /dev/null --write-out "%{http_code}" --header "X-API-Key: $api_key" --data "$data" "$api_base_url/zones")
 
   if [[ $zone_status = 201 ]]; then
     echo Success. Zone $zone created.
@@ -156,5 +156,3 @@ elif [[ $zone_status = 404 ]]; then
 else
   echo Unexpected http response checking for Zone $zone: $zone_status
 fi
-
-rm /tmp/$zone.output

@@ -30,9 +30,7 @@ fi
 
 if [[ -n $execute ]] || pdns::yesno "Delete $zone now?"; then
   echo
-  zone_status=$(/usr/bin/curl --silent --output /tmp/$zone --write-out "%{http_code}" --request DELETE --header "X-API-Key: $api_key" $api_base_url/zones/$zone)
-  rm /tmp/$zone
-
+  zone_status=$(/usr/bin/curl --silent --output /dev/null --write-out "%{http_code}" --request DELETE --header "X-API-Key: $api_key" $api_base_url/zones/$zone)
   if [[ $zone_status = 204 ]]; then
     echo Zone $zone deleted.
   elif [[ $zone_status = 404 ]]; then
