@@ -56,25 +56,15 @@ if [[ -z $type ]]; then
   exit
 fi
 
-# first query to see if zone already exists
-zone_status=$(/usr/bin/curl --silent --output /dev/null --write-out "%{http_code}" -H "X-API-Key: $api_key" "$api_base_url/zones/$zone?rrsets=false")
+data="{\"rrsets\":[{\"name\":\"$name\",\"type\":\"$type\",\"changetype\":\"DELETE\",\"records\":[]}]}"
 
-if [[ $zone_status = 200 ]]; then
-  # verified zone exists, delete record
+# delete record(s)
+zone_status=$(/usr/bin/curl --silent --request PATCH --output /dev/null --write-out "%{http_code}" --header "X-API-Key: $api_key" --data "$data" "$api_base_url/zones/$zone")
 
-  data="{\"rrsets\":[{\"name\":\"$name\",\"type\":\"$type\",\"changetype\":\"DELETE\",\"records\":[]}]}"
-
-  # delete record(s)
-  zone_status=$(/usr/bin/curl --silent --request PATCH --output /dev/null --write-out "%{http_code}" --header "X-API-Key: $api_key" --data "$data" "$api_base_url/zones/$zone")
-
-  if [[ $zone_status = 204 ]]; then
-    echo "Success. Record(s) for $zone deleted."
-  else
-    echo "Error. http response deleting record(s) for $zone was: $zone_status"
-  fi
-
+if [[ $zone_status = 204 ]]; then
+  echo "Success. Record(s) for $zone deleted."
 elif [[ $zone_status = 404 ]]; then
   echo "Zone $zone does not exist, can't delete record."
 else
-  echo "Unexpected http response checking for Zone $zone: $zone_status"
+  echo "Error. http response deleting record(s) for $zone was: $zone_status"
 fi
