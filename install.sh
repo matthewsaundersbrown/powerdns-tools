@@ -1,4 +1,9 @@
 #!/bin/bash
+#
+# powerdns-tools
+# https://git.stack-source.com/msb/powerdns-tools
+# Copyright (c) 2022 Matthew Saunders Brown <matthewsaundersbrown@gmail.com>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 apt install pip
 pip install certbot-dns-powerdns

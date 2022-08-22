@@ -2,7 +2,8 @@
 #
 # pdns-tools
 # https://git.stack-source.com/msb/pdns-tools
-# MIT License Copyright (c) 2022 Matthew Saunders Brown
+# Copyright (c) 2022 Matthew Saunders Brown <matthewsaundersbrown@gmail.com>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 # load include file
 source $(dirname $0)/pdns.sh
@@ -152,6 +153,8 @@ elif [[ $zone_status = 404 ]]; then
   else
     echo Error. http response adding zone $zone was: $zone_status
   fi
+
+  echo "data = $data"
 
 else
   echo Unexpected http response checking for Zone $zone: $zone_status

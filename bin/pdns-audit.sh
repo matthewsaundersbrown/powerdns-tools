@@ -2,7 +2,8 @@
 #
 # powerdns-tools
 # https://git.stack-source.com/msb/powerdns-tools
-# MIT License Copyright (c) 2022 Matthew Saunders Brown
+# Copyright (c) 2022 Matthew Saunders Brown <matthewsaundersbrown@gmail.com>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 #
 # Basic PowerDNS audit tool. Gets list of zones from pdns database
 # and does DNS lookups on their nameservers to see if the zone uses

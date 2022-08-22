@@ -2,7 +2,8 @@
 #
 # powerdns-tools
 # https://git.stack-source.com/msb/powerdns-tools
-# MIT License Copyright (c) 2022 Matthew Saunders Brown
+# Copyright (c) 2022 Matthew Saunders Brown <matthewsaundersbrown@gmail.com>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 #
 # powerdns-tools include file, used by other powerdns-tools bash scripts
 
@@ -20,7 +21,7 @@ fi
 
 # constants
 
-# API URL. Consider putting this behind a proxy with https on the front.
+# API URL. Consider putting this behind a proxy with https on the front and then setting api_base_url in pdns.conf
 [[ -z $api_base_url ]] && api_base_url=http://127.0.0.1:8081/api/v1/servers/localhost
 
 # Default IP address to use for new zone records
