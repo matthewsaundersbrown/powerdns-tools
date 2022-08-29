@@ -5,7 +5,7 @@
 # Copyright (c) 2022 Matthew Saunders Brown <matthewsaundersbrown@gmail.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-apt install pip
+DEBIAN_FRONTEND=noninteractive apt-get -y install pip
 pip install certbot-dns-powerdns
 
 if [[ ! -f /root/.pdns-credentials.ini ]]; then
